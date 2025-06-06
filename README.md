@@ -1,68 +1,69 @@
 # CBStorm
-CBStorm scans web application and finds live subdomains using subfinder and httpx, scans all subdomains using nmap, performs directory traversal and saves all data. It resumes most steps based on file presence, but it's not foolproof.It is intended for bug bounty hunters, penetration testers, and network reconnaissance.
+
+CBStorm scans web applications and finds live subdomains using `subfinder` and `httpx`, scans them with `nmap`, performs directory traversal, and saves all data. It resumes most steps based on file presence but is not fully fault-tolerant. It is intended for bug bounty hunters, penetration testers, and network reconnaissance.
 
 ## Features
 
-- Uses `subfinder` to find subdomains from input domains or files.
+- Uses `subfinder` to discover subdomains from input domains or files.
 - Filters live domains using `httpx`.
-- Cleans and prepares a list of domains by removing `https://` prefix.
-- Performs detailed Nmap scans on live subdomains.
-- Automatically skips domains that were already scanned.
-- Supports excluding specific domains from scanning.
-- Allows configurable parallel jobs for Nmap.
+- Cleans the list by removing `https://` prefixes.
+- Performs detailed Nmap scans with scripts and version detection.
+- Automatically skips already scanned or excluded domains.
+- Supports parallel Nmap jobs.
+- Saves all output in a structured format for later analysis.
 
 ## Prerequisites
 
-Ensure the following tools are installed and available in your PATH:
+Ensure the following tools are installed and available in your system PATH:
 
-- subfinder
-- httpx
-- nmap
-- parallel
+- `subfinder`
+- `httpx`
+- `nmap`
+- `parallel`
 
-You can install them using package managers like `apt`, `brew`, or download from official repositories.
+Install using `apt`, `brew`, or their respective official sources.
 
 ## Usage
 
-```bash
+\`\`\`bash
 ./CBStorm.sh [-o output_dir] [-j jobs] [-e exclude_file] <target_file_or_domain1> [<target_file_or_domain2> ...]
-```
+\`\`\`
+
 ## Options
 
-    `-o, --output <dir>`: Output directory to store results (default is current directory).
+- \`-o, --output <dir>\`  
+  Output directory to store results (default: current directory)
 
-    `-j, --jobs <num>`: Number of parallel Nmap jobs (default is 4).
+- \`-j, --jobs <num>\`  
+  Number of parallel Nmap jobs (default: 4)
 
-    `-e, --exclude <file>`: File containing domains to exclude from Nmap scanning.
+- \`-e, --exclude <file>\`  
+  File containing domains to exclude from Nmap scanning
 
-    `-h, --help`: Show usage instructions.
+- \`-h, --help\`  
+  Show usage instructions
 
 ## Examples
 
-```bash
+\`\`\`bash
 ./CBStorm.sh -o ./results example.com
 ./CBStorm.sh -o ./results -j 10 -e exclude.txt scope.txt more_targets.txt
-```
+\`\`\`
 
 ## Output Structure
 
-Each target produces the following output files in the specified directory:
+For each target, CBStorm generates the following files in the output directory:
 
-    `subfinder_<target>.all`: All discovered subdomains.
-
-    `subfinder_<target>.live`: Live domains (based on HTTP response).
-
-    `subfinder_<target>.clean`: Cleaned domain list (no https://).
-
-    `<target>.nmap/*.nmap`: Nmap scan results for each live domain.
+- \`subfinder_<target>.all\` – All discovered subdomains  
+- \`subfinder_<target>.live\` – Live domains detected by `httpx`  
+- \`subfinder_<target>.clean\` – Live domains with \`https://\` prefix removed  
+- \`<target>.nmap/*.nmap\` – Nmap results for each live domain
 
 ## Notes
 
-    Domains already scanned or listed in the exclude file will be skipped automatically.
-
-    If any step has already completed (with output file present and non-empty), it will not be repeated.
-
-    Temporary files are cleaned up after use.
+- If a file already exists and is non-empty, the step is skipped.
+- Domains in the exclude file are not scanned.
+- Temporary files used during scanning are deleted afterward.
 
 ## License
 
