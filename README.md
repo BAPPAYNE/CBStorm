@@ -67,4 +67,4 @@ For each target, CBStorm generates the following files in the output directory:
 
 ## License
 
-This script is provided as-is for educational and research purposes.
+This script is provided for educational and research purposes.
