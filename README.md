@@ -25,39 +25,39 @@ Install using `apt`, `brew`, or their respective official sources.
 
 ## Usage
 
-\`\`\`bash
+```bash
 ./CBStorm.sh [-o output_dir] [-j jobs] [-e exclude_file] <target_file_or_domain1> [<target_file_or_domain2> ...]
-\`\`\`
+```
 
 ## Options
 
-- \`-o, --output <dir>\`  
+- `-o, --output <dir>`  
   Output directory to store results (default: current directory)
 
-- \`-j, --jobs <num>\`  
+- `-j, --jobs <num>`  
   Number of parallel Nmap jobs (default: 4)
 
-- \`-e, --exclude <file>\`  
+- `-e, --exclude <file>`  
   File containing domains to exclude from Nmap scanning
 
-- \`-h, --help\`  
+- `-h, --help`  
   Show usage instructions
 
 ## Examples
 
-\`\`\`bash
+```bash
 ./CBStorm.sh -o ./results example.com
 ./CBStorm.sh -o ./results -j 10 -e exclude.txt scope.txt more_targets.txt
-\`\`\`
+```
 
 ## Output Structure
 
 For each target, CBStorm generates the following files in the output directory:
 
-- \`subfinder_<target>.all\` – All discovered subdomains  
-- \`subfinder_<target>.live\` – Live domains detected by `httpx`  
-- \`subfinder_<target>.clean\` – Live domains with \`https://\` prefix removed  
-- \`<target>.nmap/*.nmap\` – Nmap results for each live domain
+- `subfinder_<target>.all` – All discovered subdomains  
+- `subfinder_<target>.live` – Live domains detected by `httpx`  
+- `subfinder_<target>.clean` – Live domains with `https://` prefix removed  
+- `<target>.nmap/*.nmap` – Nmap results for each live domain
 
 ## Notes
 
